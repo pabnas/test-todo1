@@ -17,19 +17,18 @@ import Form1 from './components/Form1'
 import Form2 from './components/Form2'
 import TableData from './components/Table'
 
-const steps = [
+const App = () => {
+  const [step, setStep] = useState(0)
+  const steps = [
   {
     label: 'Paso 1',
-    componente: <Form1 />
+    componente: <Form1 setStep={setStep}/>
   },
   {
     label: 'Paso 2',
-    componente: <Form2 />
+    componente: <Form2 setStep={setStep}/>
   }
 ]
-
-const App = () => {
-  const [step, setStep] = useState(0)
 
   return (
     <Container
