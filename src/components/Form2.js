@@ -1,25 +1,47 @@
 import {
   TextField,
-  Button
+  Button, Box
 } from '@mui/material'
 
 import useFormStyles from '../styles/useFormFields'
 import {useState} from "react";
+import api from "../api/users"
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
 
-const Form2 = ({ setStep,handlerData }) => {
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+const Form2 = ({ setStep,callback }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
   const [cc, setcc] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const classes = useFormStyles()
 
   const onSubmit = (event) => {
     event.preventDefault()
-    handlerData({
-      email: event.target[0].value,
-      phoneNumber: event.target[1].value,
-      cc: event.target[2].value,
+    let user = callback({
+      email: email,
+      phoneNumber: phoneNumber,
+      cc: cc,
     })
+    api.createUser(user).then(() => {
+      handleOpen();
+    });
   }
 
   return (
@@ -68,6 +90,21 @@ const Form2 = ({ setStep,handlerData }) => {
       >
         Enviar
       </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Se ha creado el usuario
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Ya puedes cerrar este mensaje dando click afuera de este
+          </Typography>
+        </Box>
+      </Modal>
     </form>
   )
 }

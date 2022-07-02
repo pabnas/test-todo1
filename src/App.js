@@ -17,16 +17,35 @@ import Form1 from './components/Form1'
 import Form2 from './components/Form2'
 import TableData from './components/Table'
 
+let user = {
+    name: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    cc : "",
+}
+
 const App = () => {
   const [step, setStep] = useState(0)
+
+  const callbackUserDataForm1 = (userData) => {
+      user.name = userData.name;
+      user.lastName = userData.lastName;
+  };
+  const callbackUserDataForm2 = (userData) => {
+      user.cc = userData.cc;
+      user.email = userData.email;
+      user.phoneNumber = userData.phoneNumber;
+      return user;
+  };
   const steps = [
   {
     label: 'Paso 1',
-    componente: <Form1 setStep={setStep}/>
+    componente: <Form1 setStep={setStep} callback={callbackUserDataForm1}/>
   },
   {
     label: 'Paso 2',
-    componente: <Form2 setStep={setStep}/>
+    componente: <Form2 setStep={setStep} callback={callbackUserDataForm2}/>
   }
 ]
 

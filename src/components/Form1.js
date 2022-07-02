@@ -6,13 +6,14 @@ import {
 import useFormStyles from '../styles/useFormFields'
 import {useState} from "react";
 
-const Form1 = ({ setStep }) => {
+const Form1 = ({ setStep, callback }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const classes = useFormStyles()
 
   const onSubmit = (event) => {
     event.preventDefault()
+    callback({ name:firstName,lastName: lastName });
     setStep(1)
   }
 
