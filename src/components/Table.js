@@ -5,17 +5,41 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper, Button, ButtonGroup, Fab
+  Paper, Button, ButtonGroup, Fab, Box
 } from '@mui/material'
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import api from "../api/users";
 
 import useUsers from '../hooks/useUsers'
+import {useState} from "react";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const TableData = () => {
   const { users } = useUsers()
- 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleOpen = () => setOpenDeleteModal(true);
+  const handleClose = () => setOpenDeleteModal(false);
+
+  const deleteUser = (id) => {
+    api.deleteUser(id).then((data) =>{
+      handleOpen();
+    })
+  }
   return (
     <TableContainer
       component={Paper}
@@ -67,7 +91,7 @@ const TableData = () => {
                     <EditIcon />
                   </Fab>
 
-                  <Fab size="small" color="error" aria-label="edit" sx={{ mr: 2 }}>
+                  <Fab size="small" color="error" aria-label="edit" sx={{ mr: 2 }} onClick={() => deleteUser(user._id) }>
                     <DeleteIcon />
                   </Fab>
                 </ButtonGroup>
@@ -76,6 +100,18 @@ const TableData = () => {
           ))}
         </TableBody>
       </Table>
+      <Modal
+        open={openDeleteModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Se elimino el cliente correctamente
+          </Typography>
+        </Box>
+      </Modal>
     </TableContainer>
   )
 }
