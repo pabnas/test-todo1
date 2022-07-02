@@ -4,13 +4,15 @@ import {
 } from '@mui/material'
 
 import useFormStyles from '../styles/useFormFields'
+import {useState} from "react";
 
 const Form1 = ({ setStep }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const classes = useFormStyles()
 
   const onSubmit = (event) => {
     event.preventDefault()
-
     setStep(1)
   }
 
@@ -24,6 +26,7 @@ const Form1 = ({ setStep }) => {
         required
         id="name"
         label="Nombre"
+        onChange={event => setFirstName(event.target.value)}
         defaultValue={''}
       />
       <TextField
@@ -31,7 +34,9 @@ const Form1 = ({ setStep }) => {
         fullWidth
         required
         id="name"
+        name="lastName"
         label="Apellido"
+        onChange={event => setLastName(event.target.value)}
         defaultValue={''}
       />
       <Button
