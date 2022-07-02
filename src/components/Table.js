@@ -32,12 +32,12 @@ const style = {
 const TableData = () => {
   const { users } = useUsers()
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const handleOpen = () => setOpenDeleteModal(true);
-  const handleClose = () => setOpenDeleteModal(false);
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
   const deleteUser = (id) => {
     api.deleteUser(id).then((data) =>{
-      handleOpen();
+      handleOpenDeleteModal();
     })
   }
   return (
@@ -102,7 +102,7 @@ const TableData = () => {
       </Table>
       <Modal
         open={openDeleteModal}
-        onClose={handleClose}
+        onClose={handleCloseDeleteModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
